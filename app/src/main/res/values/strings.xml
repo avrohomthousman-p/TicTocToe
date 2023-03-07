@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">TicTocToeApp</string>
+    <string name="app_name">Play Tic Toc Toe</string>
+
+
+    <string name="play_vs_human">Play VS Human</string>
+    <string name="play_vs_computer">Play VS Computer</string>
 </resources>
