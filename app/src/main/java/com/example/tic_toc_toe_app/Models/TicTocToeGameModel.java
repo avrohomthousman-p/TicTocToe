@@ -1,5 +1,7 @@
 package com.example.tic_toc_toe_app.Models;
 
+import android.graphics.Point;
+
 /**
  * Implementation of the {@link TicTocToeGame TicTocToeGame interface}.
  */
@@ -8,17 +10,44 @@ public class TicTocToeGameModel implements TicTocToeGame {
     private static final int BOARD_COLS = 3;
 
     private final Player[][] board = new Player[BOARD_ROWS][BOARD_COLS];
+    private final ComputerMoveGenerator computerMoveGenerator;
     private Player playerWhoseTurnItIs = Player.NONE;
     private Player winner = Player.NONE;
     private boolean gameRunning = false;
+    private boolean computerOpponent;
+
+    public TicTocToeGameModel(ComputerMoveGenerator computerMoveGenerator) {
+        this.computerMoveGenerator = computerMoveGenerator;
+    }
 
 
     @Override
-    public void startNewGame() {
+    public void startNewGame(int opponentType) {
+        setOpponentType(opponentType);
         resetBoard();
         playerWhoseTurnItIs = Player.X;
         winner = Player.NONE;
         gameRunning = true;
+    }
+
+
+    /**
+     * Sets the opponent for the new game to be either computer or human, depending on the input.
+     * If the input attempts to select any other option, an exception is thrown.
+     *
+     * @param opponentType the desired type of opponent - computer or human.
+     */
+    private void setOpponentType(int opponentType){
+        if(opponentType == HUMAN_OPPONENT){
+            computerOpponent = false;
+        }
+        else if(opponentType == COMPUTER_OPPONENT){
+            computerOpponent = true;
+        }
+        else{
+            throw new IllegalArgumentException(
+                    String.format("%d is not a valid opponent code.", opponentType));
+        }
     }
 
 
@@ -50,18 +79,19 @@ public class TicTocToeGameModel implements TicTocToeGame {
         }
 
 
+        //Mark the chosen spot on the board with an X or O
         board[row][col] = playerWhoseTurnItIs;
 
 
+        //Handel game over or next turn
         if(moveWinsGame(row, col)){
-            winner = playerWhoseTurnItIs;
-            playerWhoseTurnItIs = Player.NONE;
-            gameRunning = false;
+            endGame(playerWhoseTurnItIs);
         }
         else if(boardIsFull()){
-            winner = Player.NONE;
-            playerWhoseTurnItIs = Player.NONE;
-            gameRunning = false;
+            endGame(Player.NONE);
+        }
+        else if(computerOpponent){
+            takeComputerTurn();
         }
         else{
             setNextTurn();
@@ -149,6 +179,54 @@ public class TicTocToeGameModel implements TicTocToeGame {
         }
 
         return true;
+    }
+
+
+    /**
+     * Marks the local variables to indicate that the game is no longer running.
+     *
+     * @param winner The player that won (None on a tie).
+     */
+    private void endGame(Player winner){
+        this.winner = winner;
+        playerWhoseTurnItIs = Player.NONE;
+        gameRunning = false;
+    }
+
+
+    /**
+     * Takes the computers turn.
+     */
+    private void takeComputerTurn(){
+        Point p = this.computerMoveGenerator.chooseMove(copyBoard());
+
+        board[p.x][p.y] = Player.O; //computer is always O
+
+
+
+        //Check for game over
+        if(moveWinsGame(p.x, p.y)){
+            endGame(Player.O);
+        }
+        else if(boardIsFull()){
+            endGame(Player.NONE);
+        }
+    }
+
+
+    /**
+     * Makes a deep copy of the game board.
+     *
+     * @return a deep copy of the game board.
+     */
+    private Player[][] copyBoard(){
+        Player[][] copy = new Player[BOARD_ROWS][BOARD_COLS];
+
+        for (int i = 0; i < BOARD_ROWS; i++) {
+            System.arraycopy(board[i], 0, copy[i], 0, BOARD_COLS);
+        }
+
+        return copy;
     }
 
 

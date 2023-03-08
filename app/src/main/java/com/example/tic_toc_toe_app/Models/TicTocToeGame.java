@@ -4,15 +4,23 @@ package com.example.tic_toc_toe_app.Models;
  * A model for managing the backend of a tic toc toe game
  */
 public interface TicTocToeGame {
+    public static final int HUMAN_OPPONENT = 0;
+    public static final int COMPUTER_OPPONENT = 1;
+
+
     /**
      * Starts a new game
      *
+     * @param opponentType the opponent that the game will be played against. 0 for a human
+     *                     opponent and 1 for a computer opponent.
      */
-    void startNewGame();
+    void startNewGame(int opponentType);
 
 
     /**
-     * Simulates the player whose turn it currently is, taking a turn.
+     * Simulates the player whose turn it currently is, taking a turn. In a player vs computer
+     * game, this method will take the turn of the human player and then take the turn of the
+     * computer.
      *
      * @param row the row the player wants to go on.
      * @param col the column the player wants to go on.
