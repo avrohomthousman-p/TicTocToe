@@ -198,7 +198,7 @@ public class TicTocToeGameModel implements TicTocToeGame {
      * Takes the computers turn.
      */
     private void takeComputerTurn(){
-        Point p = this.computerMoveGenerator.chooseMove(copyBoard());
+        Point p = this.computerMoveGenerator.chooseMove(copyBoard(), Player.O);
 
         board[p.x][p.y] = Player.O; //computer is always O
 
