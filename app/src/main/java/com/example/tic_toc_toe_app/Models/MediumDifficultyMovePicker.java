@@ -92,7 +92,7 @@ public class MediumDifficultyMovePicker implements ComputerMoveGenerator {
         }
 
 
-        iterator = new BoardIterator(gameBoard, new Point(-1, 1), 0, 2);
+        iterator = new BoardIterator(gameBoard, new Point(1, -1), 0, 2);
         chosenMove = checkLineForWin(gameBoard, whoseTurnToTake, iterator);
         if(chosenMove != null){
             return chosenMove;
