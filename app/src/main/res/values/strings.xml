@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Play Tic Toc Toe</string>
+    <string name="app_name">Tic Toc Toe</string>
 
 
     <string name="play_vs_human">Play VS Human</string>
