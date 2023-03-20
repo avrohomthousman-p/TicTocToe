@@ -9,32 +9,41 @@
     tools:context=".Activities.GameActivity">
 
 
-    <!-- TODO add cells to grid -->
-    <include layout="@layout/grid_section"
-        android:id="@+id/square00"/>
+    <!-- cells of grid -->
+    <include
+        android:id="@+id/square00"
+        layout="@layout/grid_section" />
 
-    <include layout="@layout/grid_section"
-        android:id="@+id/square01"/>
+    <include
+        android:id="@+id/square01"
+        layout="@layout/grid_section" />
 
-    <include layout="@layout/grid_section"
-        android:id="@+id/square02"/>
+    <include
+        android:id="@+id/square02"
+        layout="@layout/grid_section" />
 
-    <include layout="@layout/grid_section"
-        android:id="@+id/square10"/>
+    <include
+        android:id="@+id/square10"
+        layout="@layout/grid_section" />
 
-    <include layout="@layout/grid_section"
-        android:id="@+id/square11"/>
+    <include
+        android:id="@+id/square11"
+        layout="@layout/grid_section" />
 
-    <include layout="@layout/grid_section"
-        android:id="@+id/square12"/>
+    <include
+        android:id="@+id/square12"
+        layout="@layout/grid_section" />
 
-    <include layout="@layout/grid_section"
-        android:id="@+id/square20"/>
+    <include
+        android:id="@+id/square20"
+        layout="@layout/grid_section" />
 
-    <include layout="@layout/grid_section"
-        android:id="@+id/square21"/>
+    <include
+        android:id="@+id/square21"
+        layout="@layout/grid_section" />
 
-    <include layout="@layout/grid_section"
-        android:id="@+id/square22"/>
+    <include
+        android:id="@+id/square22"
+        layout="@layout/grid_section" />
 
 </GridLayout>

@@ -3,8 +3,12 @@ package com.example.tic_toc_toe_app.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.example.tic_toc_toe_app.Models.MediumDifficultyMovePicker;
@@ -16,6 +20,7 @@ public class GameActivity extends AppCompatActivity {
     private boolean computerOpponent;
     private final TextView[][] board = new TextView[3][3];
     private TicTocToeGame gameModel;
+    private GridLayout boardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,8 @@ public class GameActivity extends AppCompatActivity {
      * Sets each element of the board to reference the appropriate text view.
      */
     private void setupBoard(){
+        boardView = findViewById(R.id.board);
+
         board[0][0] = findViewById(R.id.square00);
         board[0][1] = findViewById(R.id.square01);
         board[0][2] = findViewById(R.id.square02);
@@ -66,7 +73,15 @@ public class GameActivity extends AppCompatActivity {
      * Sets up event handlers to handle user clicks on the game board.
      */
     private void setupBoardClickListeners(){
-        //TODO
+        View.OnClickListener listener = new BoardClickListener();
+
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[i].length; j++){
+                board[i][j].setOnClickListener(listener);
+                board[i][j].setText(((i + j) % 2 == 0 ? "X" : "O")); //for testing only
+                board[i][j].setTag("s" + i + "" + j);
+            }
+        }
     }
 
 
@@ -77,5 +92,29 @@ public class GameActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * Manages clicks on the game board.
+     */
+    private class BoardClickListener implements View.OnClickListener {
+
+
+        @Override
+        public void onClick(View view) {
+            String viewTag = (String) view.getTag();
+            int x = Character.getNumericValue(viewTag.charAt(1));
+            int y = Character.getNumericValue(viewTag.charAt(2));
+
+            board[x][y].setText("X"); //for testing only
+
+            if(computerOpponent){
+                //TODO
+            }
+            else{
+                //TODO
+            }
+        }
     }
 }
