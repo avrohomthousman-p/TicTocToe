@@ -78,7 +78,6 @@ public class GameActivity extends AppCompatActivity {
         for(int i = 0; i < board.length; i++){
             for(int j = 0; j < board[i].length; j++){
                 board[i][j].setOnClickListener(listener);
-                board[i][j].setText(((i + j) % 2 == 0 ? "X" : "O")); //for testing only
                 board[i][j].setTag("s" + i + "" + j);
             }
         }

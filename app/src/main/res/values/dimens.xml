@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="large_text">35sp</dimen>
+    <dimen name="board_section_width">150dp</dimen>
+    <dimen name="board_section_height">150dp</dimen>
+</resources>
