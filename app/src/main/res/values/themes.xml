@@ -15,12 +15,23 @@
     </style>
 
 
-    <style name="board_section">
-        <item name="android:layout_width">@dimen/board_section_width</item>
-        <item name="android:layout_height">@dimen/board_section_height</item>
+    <style name="view_with_border">
+        <item name="android:background">@drawable/border</item>
+    </style>
+
+
+    <style name="board_section" parent="view_with_border">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:freezesText">true</item>
         <item name="android:text">A</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">@dimen/large_text</item>
+        <item name="android:paddingLeft">@dimen/board_section_padding_side</item>
+        <item name="android:paddingRight">@dimen/board_section_padding_side</item>
+        <item name="android:paddingTop">@dimen/board_section_padding_top_and_bottom</item>
+        <item name="android:paddingBottom">@dimen/board_section_padding_top_and_bottom</item>
     </style>
+
+
 </resources>

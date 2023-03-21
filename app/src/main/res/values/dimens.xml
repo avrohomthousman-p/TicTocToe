@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="large_text">35sp</dimen>
-    <dimen name="board_section_width">150dp</dimen>
-    <dimen name="board_section_height">150dp</dimen>
+    <dimen name="large_text">55sp</dimen>
+    <dimen name="board_section_padding_side">24dp</dimen>
+    <dimen name="board_section_padding_top_and_bottom">8dp</dimen>
+    <dimen name="border_width">2dp</dimen>
 </resources>
