@@ -115,11 +115,13 @@ public class GameActivity extends AppCompatActivity {
             int y = Character.getNumericValue(viewTag.charAt(2));
 
 
-            //Update the board to display the move that was just taken.
-            board[x][y].setText(gameModel.getCurrentPlayer().toString());
-
 
             gameModel.takeTurn(x, y);
+
+
+            //Update the board to display the move that was just taken.
+            board[x][y].setText(    gameModel.getValueAtBoardPosition(x, y).toString()   );
+
 
 
             if(computerOpponent){
@@ -146,7 +148,11 @@ public class GameActivity extends AppCompatActivity {
                 return;
             }
 
-            board[computerMove.x][computerMove.y].setText(Player.O.toString());
+            board[computerMove.x][computerMove.y].setText(
+                    gameModel.getValueAtBoardPosition(computerMove.x, computerMove.y)
+                            .toString());
+
+
             //TODO update ui
         }
     }
