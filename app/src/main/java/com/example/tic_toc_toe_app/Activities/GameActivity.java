@@ -12,6 +12,7 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.example.tic_toc_toe_app.Models.MediumDifficultyMovePicker;
+import com.example.tic_toc_toe_app.Models.Player;
 import com.example.tic_toc_toe_app.Models.TicTocToeGame;
 import com.example.tic_toc_toe_app.Models.TicTocToeGameModel;
 import com.example.tic_toc_toe_app.R;
@@ -78,7 +79,6 @@ public class GameActivity extends AppCompatActivity {
         for(int i = 0; i < board.length; i++){
             for(int j = 0; j < board[i].length; j++){
                 board[i][j].setOnClickListener(listener);
-                board[i][j].setTag("s" + i + "" + j);
             }
         }
     }
@@ -102,17 +102,45 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
+            if(gameModel.isGameOver()){
+                return;
+            }
+
+            //Find out which part of the board was clicked
             String viewTag = (String) view.getTag();
             int x = Character.getNumericValue(viewTag.charAt(1));
             int y = Character.getNumericValue(viewTag.charAt(2));
 
-            board[x][y].setText("X"); //for testing only
+
+            //Update the board to display the move that was just taken.
+            board[x][y].setText(gameModel.getCurrentPlayer().toString());
+
+
+            gameModel.takeTurn(x, y);
+
 
             if(computerOpponent){
-                //TODO
+                //TODO: delay
+                updateBoard();
             }
             else{
-                //TODO
+                //TODO: other UI stuff
+            }
+        }
+
+
+        /**
+         * Updates the entire contents of the board to match what is stored in the model.
+         */
+        private void updateBoard(){
+            Player current;
+
+            for(int i = 0; i < board.length; i++){
+                for(int j = 0; j < board[i].length; j++){
+                    current = gameModel.getValueAtBoardPosition(i, j);
+
+                    board[i][j].setText(    (current == null ? "" : current.toString())    );
+                }
             }
         }
     }

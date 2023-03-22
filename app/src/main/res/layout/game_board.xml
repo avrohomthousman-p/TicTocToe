@@ -14,54 +14,63 @@
 
     <TextView
         android:id="@+id/square00"
+        android:tag="s00"
         style="@style/board_section"
         android:layout_row="0"
         android:layout_column="0" />
 
     <TextView
         android:id="@+id/square01"
+        android:tag="s01"
         style="@style/board_section"
         android:layout_row="0"
         android:layout_column="1" />
 
     <TextView
         android:id="@+id/square02"
+        android:tag="s02"
         style="@style/board_section"
         android:layout_row="0"
         android:layout_column="2" />
 
     <TextView
         android:id="@+id/square10"
+        android:tag="s10"
         style="@style/board_section"
         android:layout_row="1"
         android:layout_column="0" />
 
     <TextView
         android:id="@+id/square11"
+        android:tag="s11"
         style="@style/board_section"
         android:layout_row="1"
         android:layout_column="1" />
 
     <TextView
         android:id="@+id/square12"
+        android:tag="s12"
         style="@style/board_section"
         android:layout_row="1"
         android:layout_column="2" />
 
     <TextView
         android:id="@+id/square20"
+        android:tag="s20"
         style="@style/board_section"
         android:layout_row="2"
         android:layout_column="0" />
 
     <TextView
         android:id="@+id/square21"
+        android:tag="s21"
         style="@style/board_section"
         android:layout_row="2"
         android:layout_column="1" />
 
     <TextView
         android:id="@+id/square22"
+        android:tag="s22"
         style="@style/board_section"
         android:layout_row="2"
         android:layout_column="2" />
