@@ -25,7 +25,6 @@ public class GameActivity extends AppCompatActivity {
     private boolean computerOpponent;
     private final TextView[][] board = new TextView[3][3];
     private TicTocToeGame gameModel;
-    private GridLayout boardView;
     private final Timer turnDelayer = new Timer();
 
     @Override
@@ -51,7 +50,10 @@ public class GameActivity extends AppCompatActivity {
      */
     private void setupModel() {
         gameModel = new TicTocToeGameModel(new MediumDifficultyMovePicker());
-        gameModel.startNewGame((computerOpponent ? TicTocToeGame.COMPUTER_OPPONENT : TicTocToeGame.HUMAN_OPPONENT));
+        gameModel.startNewGame(
+                (computerOpponent ?
+                        TicTocToeGame.COMPUTER_OPPONENT :
+                        TicTocToeGame.HUMAN_OPPONENT));
     }
 
 
@@ -59,19 +61,29 @@ public class GameActivity extends AppCompatActivity {
      * Sets each element of the board to reference the appropriate text view.
      */
     private void setupBoard(){
-        boardView = findViewById(R.id.board);
+        GridLayout boardView = findViewById(R.id.board);
 
-        board[0][0] = findViewById(R.id.square00);
-        board[0][1] = findViewById(R.id.square01);
-        board[0][2] = findViewById(R.id.square02);
 
-        board[1][0] = findViewById(R.id.square10);
-        board[1][1] = findViewById(R.id.square11);
-        board[1][2] = findViewById(R.id.square12);
+        for(int i = 0; i < boardView.getRowCount(); i++){
+            for(int j = 0; j < boardView.getColumnCount(); j++){
+                board[i][j] = (TextView) boardView.getChildAt(
+                        convertMatrixIndexToLinear(i, j, boardView.getRowCount()));
+            }
+        }
+    }
 
-        board[2][0] = findViewById(R.id.square20);
-        board[2][1] = findViewById(R.id.square21);
-        board[2][2] = findViewById(R.id.square22);
+
+    /**
+     * Converts the indexes of a 2 dimensional array into a single index for a linear array
+     * with the same total capacity.
+     *
+     * @param x the X coordinate of the 2 dimensional array.
+     * @param y the Y coordinate of the 2 dimensional array.
+     * @param rowLength the length of each row in the 2 dimensional array.
+     * @return the one dimensional index equivalent of the specified 2 dimensional index.
+     */
+    private int convertMatrixIndexToLinear(int x, int y, int rowLength){
+        return y + (x * rowLength);
     }
 
 
