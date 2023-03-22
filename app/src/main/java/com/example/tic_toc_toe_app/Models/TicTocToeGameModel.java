@@ -68,8 +68,8 @@ public class TicTocToeGameModel implements TicTocToeGame {
         if(!gameRunning){
             return;
         }
-        if(computerOpponent && playerWhoseTurnItIs != Player.O){
-            throw new RuntimeException("It is not currently the players turn.");
+        if(computerOpponent && playerWhoseTurnItIs != Player.X){
+            return;
         }
         if(row < 0 || row >= BOARD_ROWS){
             throw new IndexOutOfBoundsException(String.format("Row %d out of bounds for board length %d.", row, BOARD_ROWS));
@@ -203,7 +203,7 @@ public class TicTocToeGameModel implements TicTocToeGame {
             throw new RuntimeException("Cannot take turn for computer in a player vs player game.");
         }
         if(playerWhoseTurnItIs != Player.O){ //computer is always O
-            throw new RuntimeException("It is not currently the computers turn.");
+            return null;
         }
 
 
@@ -290,6 +290,9 @@ public class TicTocToeGameModel implements TicTocToeGame {
     }
 
 
+    /**
+     * Prints the game board to the console. This is just for testing.
+     */
     void printGrid(){
         for(int i = 0; i < BOARD_ROWS; i++){
             System.out.print("|");

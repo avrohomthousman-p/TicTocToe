@@ -17,11 +17,16 @@ import com.example.tic_toc_toe_app.Models.TicTocToeGame;
 import com.example.tic_toc_toe_app.Models.TicTocToeGameModel;
 import com.example.tic_toc_toe_app.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 public class GameActivity extends AppCompatActivity {
     private boolean computerOpponent;
     private final TextView[][] board = new TextView[3][3];
     private TicTocToeGame gameModel;
     private GridLayout boardView;
+    private final Timer turnDelayer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +103,6 @@ public class GameActivity extends AppCompatActivity {
      * Manages clicks on the game board.
      */
     private class BoardClickListener implements View.OnClickListener {
-
-
         @Override
         public void onClick(View view) {
             if(gameModel.isGameOver()){
@@ -120,28 +123,31 @@ public class GameActivity extends AppCompatActivity {
 
 
             if(computerOpponent){
-                //TODO: delay
-                updateBoard();
+                //TODO: ui stuff
+                turnDelayer.schedule(new ComputerTurnTask(), 1500);
             }
             else{
                 //TODO: other UI stuff
             }
         }
+    }
 
 
-        /**
-         * Updates the entire contents of the board to match what is stored in the model.
-         */
-        private void updateBoard(){
-            Player current;
+    /**
+     * Implementation of TimerTask that tells the model to take the computer turn, and then updates
+     * the UI based on the results of that turn.
+     */
+    private class ComputerTurnTask extends TimerTask {
+        @Override
+        public void run() {
+            Point computerMove = gameModel.takeComputerTurn();
 
-            for(int i = 0; i < board.length; i++){
-                for(int j = 0; j < board[i].length; j++){
-                    current = gameModel.getValueAtBoardPosition(i, j);
-
-                    board[i][j].setText(    (current == null ? "" : current.toString())    );
-                }
+            if(computerMove == null){
+                return;
             }
+
+            board[computerMove.x][computerMove.y].setText(Player.O.toString());
+            //TODO update ui
         }
     }
 }
