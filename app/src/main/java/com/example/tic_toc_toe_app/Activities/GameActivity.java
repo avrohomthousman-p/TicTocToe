@@ -26,6 +26,7 @@ public class GameActivity extends AppCompatActivity {
     private final TextView[][] board = new TextView[3][3];
     private TicTocToeGame gameModel;
     private final Timer turnDelayer = new Timer();
+    private TextView statusBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,8 @@ public class GameActivity extends AppCompatActivity {
 
         setupBoard();
 
+        setupStatusBar();
+
         setupBoardClickListeners();
     }
 
@@ -54,6 +57,38 @@ public class GameActivity extends AppCompatActivity {
                 (computerOpponent ?
                         TicTocToeGame.COMPUTER_OPPONENT :
                         TicTocToeGame.HUMAN_OPPONENT));
+
+    }
+
+
+    /**
+     * Does initialization of status bar.
+     */
+    private void setupStatusBar(){
+        this.statusBar = findViewById(R.id.status_bar);
+        updateStatusBar();
+    }
+
+
+    /**
+     * Updates the status bar to display the correct message.
+     */
+    private void updateStatusBar(){
+        String text;
+
+        if(gameModel.isGameOver()){
+            if(gameModel.getWinner() == Player.NONE){
+                text = "Game over: Draw";
+            }
+            else{
+                text = "Game over: " + gameModel.getWinner().toString() + " wins!";
+            }
+        }
+        else{
+            text = "It is " + gameModel.getCurrentPlayer().toString() + "'s turn.";
+        }
+
+        runOnUiThread(() -> {statusBar.setText(text);});
     }
 
 
@@ -139,13 +174,11 @@ public class GameActivity extends AppCompatActivity {
             board[x][y].setText(    gameModel.getValueAtBoardPosition(x, y).toString()   );
 
 
+            updateStatusBar();
+
 
             if(computerOpponent){
-                //TODO: ui stuff
                 turnDelayer.schedule(new ComputerTurnTask(), 1500);
-            }
-            else{
-                //TODO: other UI stuff
             }
         }
     }
@@ -169,7 +202,7 @@ public class GameActivity extends AppCompatActivity {
                             .toString());
 
 
-            //TODO update ui
+            updateStatusBar();
         }
     }
 }
