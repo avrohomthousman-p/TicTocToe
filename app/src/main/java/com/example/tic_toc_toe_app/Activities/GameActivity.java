@@ -25,7 +25,7 @@ public class GameActivity extends AppCompatActivity {
     private boolean computerOpponent;
     private final TextView[][] board = new TextView[3][3];
     private TicTocToeGame gameModel;
-    private final Timer turnDelayer = new Timer();
+    private Timer turnDelayer = new Timer();
     private TextView statusBar;
 
     @Override
@@ -65,8 +65,45 @@ public class GameActivity extends AppCompatActivity {
      * Does initialization of status bar.
      */
     private void setupStatusBar(){
-        this.statusBar = findViewById(R.id.status_bar);
+        findViewById(R.id.new_game_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startNewGame();
+            }
+        });
+
+        this.statusBar = findViewById(R.id.status_bar_text);
         updateStatusBar();
+    }
+
+
+    /**
+     * Starts a new game.
+     */
+    private void startNewGame(){
+        //Cancel pending computer turns
+        if(computerOpponent){
+            turnDelayer.cancel();
+            turnDelayer = new Timer();
+        }
+
+        gameModel.startNewGame(computerOpponent ? TicTocToeGame.COMPUTER_OPPONENT : TicTocToeGame.HUMAN_OPPONENT);
+
+        clearBoard();
+
+        updateStatusBar();
+    }
+
+
+    /**
+     * Removes all text from the game board.
+     */
+    private void clearBoard(){
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[i].length; j++){
+                board[i][j].setText(" ");
+            }
+        }
     }
 
 
@@ -103,6 +140,7 @@ public class GameActivity extends AppCompatActivity {
             for(int j = 0; j < boardView.getColumnCount(); j++){
                 board[i][j] = (TextView) boardView.getChildAt(
                         convertMatrixIndexToLinear(i, j, boardView.getRowCount()));
+
             }
         }
     }
