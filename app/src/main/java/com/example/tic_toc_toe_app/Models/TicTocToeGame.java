@@ -28,8 +28,9 @@ public interface TicTocToeGame {
      *
      * @param row the row the player wants to go on.
      * @param col the column the player wants to go on.
+     * @return true if the chosen move was legal, and false otherwise.
      */
-    void takeTurn(int row, int col);
+    boolean takeTurn(int row, int col);
 
 
     /**

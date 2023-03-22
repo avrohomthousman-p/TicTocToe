@@ -116,7 +116,11 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-            gameModel.takeTurn(x, y);
+            boolean moveWasLegal = gameModel.takeTurn(x, y);
+
+            if(!moveWasLegal){
+                return;
+            }
 
 
             //Update the board to display the move that was just taken.

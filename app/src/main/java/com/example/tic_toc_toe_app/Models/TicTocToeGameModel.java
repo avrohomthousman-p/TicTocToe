@@ -64,12 +64,12 @@ public class TicTocToeGameModel implements TicTocToeGame {
 
 
     @Override
-    public void takeTurn(int row, int col) {
+    public boolean takeTurn(int row, int col) {
         if(!gameRunning){
-            return;
+            return false;
         }
         if(computerOpponent && playerWhoseTurnItIs != Player.X){
-            return;
+            return false;
         }
         if(row < 0 || row >= BOARD_ROWS){
             throw new IndexOutOfBoundsException(String.format("Row %d out of bounds for board length %d.", row, BOARD_ROWS));
@@ -78,7 +78,7 @@ public class TicTocToeGameModel implements TicTocToeGame {
             throw new IndexOutOfBoundsException(String.format("Column %d out of bounds for board length %d.", col, BOARD_COLS));
         }
         if(board[row][col] != null){ //if a player already went there
-            return;
+            return false;
         }
 
 
@@ -96,6 +96,8 @@ public class TicTocToeGameModel implements TicTocToeGame {
         else{
             setNextTurn();
         }
+
+        return true;
     }
 
 
