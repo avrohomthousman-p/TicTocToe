@@ -68,6 +68,9 @@ public class TicTocToeGameModel implements TicTocToeGame {
         if(!gameRunning){
             return;
         }
+        if(computerOpponent && playerWhoseTurnItIs != Player.O){
+            throw new RuntimeException("It is not currently the players turn.");
+        }
         if(row < 0 || row >= BOARD_ROWS){
             throw new IndexOutOfBoundsException(String.format("Row %d out of bounds for board length %d.", row, BOARD_ROWS));
         }
@@ -89,9 +92,6 @@ public class TicTocToeGameModel implements TicTocToeGame {
         }
         else if(boardIsFull()){
             endGame(Player.NONE);
-        }
-        else if(computerOpponent){
-            takeComputerTurn();
         }
         else{
             setNextTurn();
@@ -194,13 +194,22 @@ public class TicTocToeGameModel implements TicTocToeGame {
     }
 
 
-    /**
-     * Takes the computers turn.
-     */
-    private void takeComputerTurn(){
+    @Override
+    public Point takeComputerTurn(){
+        if(!gameRunning){
+            return null;
+        }
+        if(!computerOpponent){
+            throw new RuntimeException("Cannot take turn for computer in a player vs player game.");
+        }
+        if(playerWhoseTurnItIs != Player.O){ //computer is always O
+            throw new RuntimeException("It is not currently the computers turn.");
+        }
+
+
         Point p = this.computerMoveGenerator.chooseMove(copyBoard(), Player.O);
 
-        board[p.x][p.y] = Player.O; //computer is always O
+        board[p.x][p.y] = Player.O;
 
 
 
@@ -211,6 +220,12 @@ public class TicTocToeGameModel implements TicTocToeGame {
         else if(boardIsFull()){
             endGame(Player.NONE);
         }
+        else{
+            setNextTurn();
+        }
+
+
+        return p;
     }
 
 

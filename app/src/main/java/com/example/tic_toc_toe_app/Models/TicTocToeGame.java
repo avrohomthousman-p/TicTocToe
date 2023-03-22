@@ -1,5 +1,8 @@
 package com.example.tic_toc_toe_app.Models;
 
+
+import android.graphics.Point;
+
 /**
  * A model for managing the backend of a tic toc toe game
  */
@@ -19,13 +22,26 @@ public interface TicTocToeGame {
 
     /**
      * Simulates the player whose turn it currently is, taking a turn. In a player vs computer
-     * game, this method will take the turn of the human player and then take the turn of the
-     * computer.
+     * game, then this method will take the turn of the human player and the turn of the
+     * computer player should be handled by a call to {@link TicTocToeGame#takeComputerTurn
+     * takeComputerTurn}.
      *
      * @param row the row the player wants to go on.
      * @param col the column the player wants to go on.
      */
     void takeTurn(int row, int col);
+
+
+    /**
+     * Simulates the computer turn in a player vs computer game. Throws an Exception in a
+     * player vs player game.
+     *
+     * @return a point containing the coordinates of the move taken by the computer, or null if the
+     * game is over.
+     *
+     * @throws RuntimeException if this method was called in a player vs player game.
+     */
+    Point takeComputerTurn();
 
 
     /**
