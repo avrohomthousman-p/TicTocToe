@@ -22,9 +22,9 @@ import java.util.TimerTask;
 
 
 public class GameActivity extends AppCompatActivity {
-    private boolean computerOpponent;
+    private static boolean computerOpponent;
+    private static TicTocToeGame gameModel = null;
     private final TextView[][] board = new TextView[3][3];
-    private TicTocToeGame gameModel;
     private Timer turnDelayer = new Timer();
     private TextView statusBar;
 
@@ -44,8 +44,6 @@ public class GameActivity extends AppCompatActivity {
         //Make a back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        computerOpponent = getIntent().getBooleanExtra(MainActivity.OPPONENT_KEY, false);
-
         setupModel();
 
         setupBoard();
@@ -58,9 +56,15 @@ public class GameActivity extends AppCompatActivity {
 
 
     /**
-     * Sets up the tic toc toe game model.
+     * Sets up the tic toc toe game model, if needed.
      */
     private void setupModel() {
+        if(gameModel != null){
+            return;
+        }
+
+        computerOpponent = getIntent().getBooleanExtra(MainActivity.OPPONENT_KEY, false);
+
         gameModel = new TicTocToeGameModel(new MediumDifficultyMovePicker());
         gameModel.startNewGame(
                 (computerOpponent ?
