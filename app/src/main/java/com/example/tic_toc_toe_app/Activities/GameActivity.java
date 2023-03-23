@@ -17,13 +17,15 @@ import com.example.tic_toc_toe_app.Models.TicTocToeGame;
 import com.example.tic_toc_toe_app.Models.TicTocToeGameModel;
 import com.example.tic_toc_toe_app.R;
 
+import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class GameActivity extends AppCompatActivity {
-    private static boolean computerOpponent;
-    private static TicTocToeGame gameModel = null;
+    private static final String MODEL_STORAGE_KEY = "model";
+    private boolean computerOpponent;
+    private TicTocToeGame gameModel = null;
     private final TextView[][] board = new TextView[3][3];
     private Timer turnDelayer = new Timer();
     private TextView statusBar;
@@ -44,7 +46,7 @@ public class GameActivity extends AppCompatActivity {
         //Make a back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setupModel();
+        setupModel(savedInstanceState);
 
         setupBoard();
 
@@ -55,14 +57,32 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Sets up the tic toc toe game model, if needed.
-     */
-    private void setupModel() {
-        if(gameModel != null){
-            return;
-        }
 
+    /**
+     * Sets up the tic toc toe game model, unless an existing model was given to us through the
+     * bundle.
+     *
+     * @param savedInstanceState any saved data passed in to this activity.
+     */
+    private void setupModel(Bundle savedInstanceState) {
+        //If this is a fresh start
+        if(savedInstanceState == null || !savedInstanceState.containsKey(MODEL_STORAGE_KEY)){
+            setupNewModel();
+        }
+        else{
+            //Restore old model
+            this.gameModel = (TicTocToeGame) savedInstanceState.getSerializable(MODEL_STORAGE_KEY);
+            this.computerOpponent = savedInstanceState.getBoolean(MainActivity.OPPONENT_KEY);
+        }
+    }
+
+
+
+    /**
+     * Sets up a completely new model and starts a new game. Calling this function while there is
+     * a game going on may produce unexpected and undesired results.
+     */
+    private void setupNewModel(){
         computerOpponent = getIntent().getBooleanExtra(MainActivity.OPPONENT_KEY, false);
 
         gameModel = new TicTocToeGameModel(new MediumDifficultyMovePicker());
@@ -209,6 +229,25 @@ public class GameActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
+    /****      Save/Load game state      ****/
+
+
+
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable(MODEL_STORAGE_KEY, (Serializable) this.gameModel);
+        outState.putBoolean(MainActivity.OPPONENT_KEY, computerOpponent);
+    }
+
 
 
 
