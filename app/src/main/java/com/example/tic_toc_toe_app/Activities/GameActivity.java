@@ -53,6 +53,7 @@ public class GameActivity extends AppCompatActivity {
         setupStatusBar();
 
         setupBoardClickListeners();
+
     }
 
 
@@ -128,6 +129,7 @@ public class GameActivity extends AppCompatActivity {
             }
         }
     }
+
 
 
 

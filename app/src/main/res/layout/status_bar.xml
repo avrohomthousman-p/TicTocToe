@@ -22,7 +22,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/status_bar_margin"
+        android:freezesText="true"
         android:gravity="center"
+        android:maxLines="5"
         android:text=" "
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         tools:showIn="@layout/activity_game" />
