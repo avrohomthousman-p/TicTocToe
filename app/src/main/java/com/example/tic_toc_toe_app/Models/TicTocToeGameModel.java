@@ -2,15 +2,21 @@ package com.example.tic_toc_toe_app.Models;
 
 import android.graphics.Point;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
- * Implementation of the {@link TicTocToeGame TicTocToeGame interface}.
+ * Implementation of the {@link TicTocToeGame TicTocToeGame interface} that is also serializable
+ * for the purpose of saving the game state when the device is rotated.
  */
-public class TicTocToeGameModel implements TicTocToeGame {
+public class TicTocToeGameModel implements TicTocToeGame, Serializable {
     private static final int BOARD_ROWS = 3;
     private static final int BOARD_COLS = 3;
 
     private final Player[][] board = new Player[BOARD_ROWS][BOARD_COLS];
-    private final ComputerMoveGenerator computerMoveGenerator;
+    private transient ComputerMoveGenerator computerMoveGenerator;
     private Player playerWhoseTurnItIs = Player.NONE;
     private Player winner = Player.NONE;
     private boolean gameRunning = false;
@@ -302,6 +308,28 @@ public class TicTocToeGameModel implements TicTocToeGame {
                 System.out.print((board[i][j] == null ? " " : board[i][j]) + "|");
             }
             System.out.println();
+        }
+    }
+
+
+    private void writeObject(ObjectOutputStream output) throws IOException {
+        output.defaultWriteObject();
+
+
+        output.writeObject(this.computerMoveGenerator.getClass());
+    }
+
+
+    private void readObject(ObjectInputStream input) throws ClassNotFoundException, IOException {
+        input.defaultReadObject();
+
+
+        Class<? extends ComputerMoveGenerator> c = (Class<? extends ComputerMoveGenerator>) input.readObject();
+
+        try {
+            this.computerMoveGenerator = c.newInstance();
+        } catch (IllegalAccessException | InstantiationException e) {
+            throw new RuntimeException(e);
         }
     }
 }
