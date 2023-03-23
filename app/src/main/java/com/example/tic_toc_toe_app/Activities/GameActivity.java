@@ -28,6 +28,14 @@ public class GameActivity extends AppCompatActivity {
     private Timer turnDelayer = new Timer();
     private TextView statusBar;
 
+
+
+
+
+
+    /****      Setup Methods      ****/
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +83,57 @@ public class GameActivity extends AppCompatActivity {
         this.statusBar = findViewById(R.id.status_bar_text);
         updateStatusBar();
     }
+
+
+    /**
+     * Sets each element of the board to reference the appropriate text view.
+     */
+    private void setupBoard(){
+        GridLayout boardView = findViewById(R.id.board);
+
+
+        for(int i = 0; i < boardView.getRowCount(); i++){
+            for(int j = 0; j < boardView.getColumnCount(); j++){
+                board[i][j] = (TextView) boardView.getChildAt(
+                        convertMatrixIndexToLinear(i, j, boardView.getRowCount()));
+
+            }
+        }
+    }
+
+
+    /**
+     * Converts the indexes of a 2 dimensional array into a single index for a linear array
+     * with the same total capacity.
+     *
+     * @param x the X coordinate of the 2 dimensional array.
+     * @param y the Y coordinate of the 2 dimensional array.
+     * @param rowLength the length of each row in the 2 dimensional array.
+     * @return the one dimensional index equivalent of the specified 2 dimensional index.
+     */
+    private int convertMatrixIndexToLinear(int x, int y, int rowLength){
+        return y + (x * rowLength);
+    }
+
+
+    /**
+     * Sets up event handlers to handle user clicks on the game board.
+     */
+    private void setupBoardClickListeners(){
+        View.OnClickListener listener = new BoardClickListener();
+
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[i].length; j++){
+                board[i][j].setOnClickListener(listener);
+            }
+        }
+    }
+
+
+
+
+
+    /****      Utility Methods      ****/
 
 
     /**
@@ -129,49 +188,11 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Sets each element of the board to reference the appropriate text view.
-     */
-    private void setupBoard(){
-        GridLayout boardView = findViewById(R.id.board);
 
 
-        for(int i = 0; i < boardView.getRowCount(); i++){
-            for(int j = 0; j < boardView.getColumnCount(); j++){
-                board[i][j] = (TextView) boardView.getChildAt(
-                        convertMatrixIndexToLinear(i, j, boardView.getRowCount()));
-
-            }
-        }
-    }
 
 
-    /**
-     * Converts the indexes of a 2 dimensional array into a single index for a linear array
-     * with the same total capacity.
-     *
-     * @param x the X coordinate of the 2 dimensional array.
-     * @param y the Y coordinate of the 2 dimensional array.
-     * @param rowLength the length of each row in the 2 dimensional array.
-     * @return the one dimensional index equivalent of the specified 2 dimensional index.
-     */
-    private int convertMatrixIndexToLinear(int x, int y, int rowLength){
-        return y + (x * rowLength);
-    }
-
-
-    /**
-     * Sets up event handlers to handle user clicks on the game board.
-     */
-    private void setupBoardClickListeners(){
-        View.OnClickListener listener = new BoardClickListener();
-
-        for(int i = 0; i < board.length; i++){
-            for(int j = 0; j < board[i].length; j++){
-                board[i][j].setOnClickListener(listener);
-            }
-        }
-    }
+    /****     Menu Stuff     ****/
 
 
     @Override
@@ -182,6 +203,13 @@ public class GameActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
+
+    /****       Inner Classes       ****/
 
 
     /**
