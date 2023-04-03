@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Implementation of the {@link TicTocToeGame TicTocToeGame interface} that is also serializable
  * for the purpose of saving the game state when the device is rotated.
  */
-public class TicTocToeGameModel implements TicTocToeGame, Serializable {
+public class TicTocToeGameModel implements SerializableTicTocToe {
     private static final int BOARD_ROWS = 3;
     private static final int BOARD_COLS = 3;
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.tic_toc_toe_app.Models.MediumDifficultyMovePicker;
 import com.example.tic_toc_toe_app.Models.Player;
+import com.example.tic_toc_toe_app.Models.SerializableTicTocToe;
 import com.example.tic_toc_toe_app.Models.TicTocToeGame;
 import com.example.tic_toc_toe_app.Models.TicTocToeGameModel;
 import com.example.tic_toc_toe_app.R;
@@ -25,7 +26,7 @@ import java.util.TimerTask;
 public class GameActivity extends AppCompatActivity {
     private static final String MODEL_STORAGE_KEY = "model";
     private boolean computerOpponent;
-    private TicTocToeGame gameModel = null;
+    private SerializableTicTocToe gameModel = null;
     private final TextView[][] board = new TextView[3][3];
     private Timer turnDelayer = new Timer();
     private TextView statusBar;
@@ -71,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
         }
         else{
             //Restore old model
-            this.gameModel = (TicTocToeGame) savedInstanceState.getSerializable(MODEL_STORAGE_KEY);
+            this.gameModel = (SerializableTicTocToe) savedInstanceState.getSerializable(MODEL_STORAGE_KEY);
             this.computerOpponent = savedInstanceState.getBoolean(MainActivity.OPPONENT_KEY);
         }
     }
@@ -244,7 +245,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putSerializable(MODEL_STORAGE_KEY, (Serializable) this.gameModel);
+        outState.putSerializable(MODEL_STORAGE_KEY, this.gameModel);
         outState.putBoolean(MainActivity.OPPONENT_KEY, computerOpponent);
     }
 
